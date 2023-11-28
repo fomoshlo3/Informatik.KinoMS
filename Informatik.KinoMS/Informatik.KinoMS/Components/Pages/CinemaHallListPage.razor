@@ -1,0 +1,41 @@
+﻿@page "/Halls"
+@inject IHallManagement hallManager
+
+<h3>Kinosäle</h3>
+
+@if (Halls == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nr.</th>
+                <th>Sitzplätze</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var hall in Halls)
+            {
+                <tr>
+                    <td>@hall.Id</td>
+                    <td>@hall.SeatsCount</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<CinemaHall>? Halls;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        Halls = await hallManager.GetAllAsync();
+    }
+}

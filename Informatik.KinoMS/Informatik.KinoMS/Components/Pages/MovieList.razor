@@ -1,0 +1,43 @@
+﻿@page "/Programm"
+@inject IMovieManagement movieManager
+
+<h3>Programm</h3>
+@if (Movies == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table align-content-md-stretch">
+        <thead>
+            <tr>
+                <td>Title</td>
+                <td>Description</td>
+                <td>UFK</td>
+                <td>Length</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Movies)
+            {
+                <tr>
+                    <td>@movie.Title</td>
+                    <td>@movie.Description</td>
+                    <td>@movie.PCA</td>
+                    <td>@movie.Length</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IEnumerable<Movie>? Movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        Movies = await movieManager.GetAllAsync();
+    }
+}
